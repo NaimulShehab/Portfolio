@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem("shehab-theme");
+      if (t === "light" || t === "cyber") document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  })();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shehab's Portfolio</title>
+<meta name="description" content="Portfolio of Md. Naimul Islam Shehab, undergraduate CSE student seeking a software engineering internship.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ---- Dark (default) ---- */
+    --black: #050505;
+    --panel: #0f0c0c;
+    --paper: #120f0f;
+    --paper-2: #1a1515;
+    --red: #e01e2b;
+    --red-deep: #7d0b14;
+    --text: #f3eeee;
+    --text-soft: #d4c9c9;
+    --muted: #a99c9c;
+    --line: #2a1a1c;
+    --nav-bg: rgba(5,5,5,.9);
+    --glow: none;
+    --works-glow: #1c0a0d;
+    --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+    --body: "Manrope", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+    --flip: 0.9s;
+    --nav-h: 68px;
+    --theme-transition: background .35s ease, color .35s ease, border-color .35s ease, box-shadow .35s ease;
+  }
+
+  /* ---- Light ---- */
+  html[data-theme="light"] {
+    --black: #ffffff;
+    --panel: #f2f9f5;
+    --paper: #ffffff;
+    --paper-2: #e8f5ed;
+    --red: #0e7a4c;
+    --red-deep: #0a5c3a;
+    --text: #12201a;
+    --text-soft: #3d5548;
+    --muted: #6d8579;
+    --line: #d8ecdf;
+    --nav-bg: rgba(255,255,255,.88);
+    --glow: none;
+    --works-glow: var(--black);
+  }
+
+  /* ---- Cyber ---- */
+  html[data-theme="cyber"] {
+    --black: #05070f;
+    --panel: #0a0e1c;
+    --paper: #0c1226;
+    --paper-2: #121a38;
+    --red: #00e8ff;
+    --red-deep: #ff2bd6;
+    --text: #e6fbff;
+    --text-soft: #b6d9ea;
+    --muted: #7488ab;
+    --line: #1d2b52;
+    --nav-bg: rgba(5,7,15,.85);
+    --glow: 0 0 8px currentColor;
+    --works-glow: #1a0c30;
+  }
+
+  * { transition: var(--theme-transition); }
+
+  /* ============================================================
+     LIGHT — minimal, editorial: thin hairlines, flat surfaces,
+     outline buttons, no heavy shadows or tinted fills.
+     ============================================================ */
+  html[data-theme="light"] .btn { border-width: 1px; border-radius: 2px; }
+  html[data-theme="light"] .btn.solid { background: transparent; color: var(--red); }
+  html[data-theme="light"] .btn.solid:hover { background: var(--red); color: #fff; }
+  html[data-theme="light"] .btn.ghost { border-color: var(--line); }
+  html[data-theme="light"] .btn.ghost:hover { background: transparent; border-color: var(--text); color: var(--text); }
+  html[data-theme="light"] .photo::before { display: none; }
+  html[data-theme="light"] .photo img { border: 1px solid var(--line); }
+  html[data-theme="light"] h2.section-title { border-bottom: 1px solid var(--line); padding-bottom: 16px; }
+  html[data-theme="light"] .timeline { border-left-width: 1px; }
+  html[data-theme="light"] .timeline li::before { border-width: 1px; width: 10px; height: 10px; left: -6px; background: var(--panel); }
+  html[data-theme="light"] .skill-card { border-width: 1px; background: transparent; box-shadow: none; }
+  html[data-theme="light"] .chip { border-width: 1px; background: transparent; color: var(--text-soft); border-radius: 4px; }
+  html[data-theme="light"] .front { border-width: 1px; background: var(--panel); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  html[data-theme="light"] .back { background: var(--paper); border-width: 1px; }
+  html[data-theme="light"] .social a { border-width: 1px; }
+  html[data-theme="light"] .social a:hover { background: transparent; border-color: var(--red); color: var(--red); }
+  html[data-theme="light"] .nav { backdrop-filter: none; }
+
+  /* ============================================================
+     CYBER — minimal terminal: monospace headings, hairline neon
+     borders, flat panels, restrained glow (hover-only).
+     ============================================================ */
+  html[data-theme="cyber"] {
+    --mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", Menlo, Consolas, monospace;
+  }
+  html[data-theme="cyber"] .logo,
+  html[data-theme="cyber"] .nav ul a,
+  html[data-theme="cyber"] h2.section-title,
+  html[data-theme="cyber"] .year,
+  html[data-theme="cyber"] .chip,
+  html[data-theme="cyber"] .label-box {
+    font-family: var(--mono); letter-spacing: .02em;
+  }
+  html[data-theme="cyber"] h2.section-title::before { content: "// "; color: var(--red-deep); }
+  html[data-theme="cyber"] .btn { border-width: 1px; border-radius: 2px; }
+  html[data-theme="cyber"] .btn.solid { background: transparent; color: var(--red); }
+  html[data-theme="cyber"] .btn.solid:hover { background: var(--red); color: var(--black); box-shadow: 0 0 12px var(--red); }
+  html[data-theme="cyber"] .btn.ghost:hover { box-shadow: 0 0 12px var(--red-deep); }
+  html[data-theme="cyber"] .photo::before { inset: 10px -10px -10px 10px; border-width: 1px; }
+  html[data-theme="cyber"] .photo img { filter: saturate(1.05); }
+  html[data-theme="cyber"] .timeline { border-left-width: 1px; }
+  html[data-theme="cyber"] .timeline li::before { border-width: 1px; width: 10px; height: 10px; left: -6px; }
+  html[data-theme="cyber"] .skill-card { border-width: 1px; background: transparent; }
+  html[data-theme="cyber"] .chip { border-width: 1px; background: transparent; }
+  html[data-theme="cyber"] .front {
+    border-width: 1px; background: var(--paper);
+    box-shadow: none;
+  }
+  html[data-theme="cyber"] .back { border-width: 1px; }
+  html[data-theme="cyber"] .social a { border-width: 1px; }
+  html[data-theme="cyber"] .social a:hover { background: transparent; border-color: var(--red); color: var(--red); box-shadow: 0 0 10px var(--red); }
+  html[data-theme="cyber"] .nav { border-bottom-color: var(--line); }
+  html[data-theme="cyber"] .theme-btn[aria-pressed="true"] { box-shadow: 0 0 10px var(--red); }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: var(--nav-h); }
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: var(--body);
+    line-height: 1.65;
+    padding-top: var(--nav-h);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  :focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 48px); }
+  section { padding: clamp(70px, 10vw, 120px) 0; }
+  h2.section-title {
+    font-family: var(--display); font-weight: 800;
+    font-size: clamp(2.6rem, 6vw, 4.2rem); line-height: 1;
+  }
+
+  /* ---------- Navigation ---------- */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: var(--nav-h);
+    background: var(--nav-bg);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav .wrap {
+    height: 100%; max-width: none;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo { font-family: var(--display); font-weight: 800; font-size: 1.7rem; letter-spacing: .3px; }
+  .logo span { color: var(--red); }
+  .nav-right { display: flex; align-items: center; gap: clamp(12px, 2vw, 22px); }
+  .theme-switch {
+    display: flex; gap: 3px; padding: 3px;
+    border: 1px solid var(--line); border-radius: 999px;
+    background: rgba(128,128,128,.06);
+  }
+  .theme-btn {
+    display: grid; place-items: center; width: 30px; height: 30px;
+    border: none; border-radius: 50%; background: transparent; color: var(--muted);
+    cursor: pointer; transition: var(--theme-transition), color .2s;
+  }
+  .theme-btn svg { width: 16px; height: 16px; }
+  .theme-btn:hover { color: var(--text); }
+  .theme-btn[aria-pressed="true"] { background: var(--red); color: #fff; }
+  .nav ul { display: flex; gap: clamp(14px, 2.2vw, 32px); list-style: none; }
+  .nav ul a { color: var(--muted); font-weight: 500; transition: color .2s; padding: 6px 0; border-bottom: 2px solid transparent; }
+  .nav ul a:hover { color: var(--text); }
+  .nav ul a.active { color: var(--text); border-bottom-color: var(--red); }
+  .menu-btn {
+    display: none; background: none; border: 2px solid var(--red-deep);
+    color: var(--text); border-radius: 6px; padding: 6px 12px; font: inherit; font-weight: 600; cursor: pointer;
+  }
+
+  /* ---------- Home ---------- */
+  .hero { min-height: calc(100vh - var(--nav-h)); display: grid; align-items: center; padding: 60px 0; }
+  .hero .wrap { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(30px, 6vw, 80px); align-items: center; }
+  .hero h1 {
+    font-family: var(--display); font-weight: 800;
+    font-size: clamp(3rem, 7vw, 6rem); line-height: .95; letter-spacing: -.5px;
+  }
+  .hero .role { margin-top: 22px; font-size: clamp(1.1rem, 2.4vw, 1.5rem); color: var(--muted); }
+  .type-cursor {
+    display: inline-block; width: .07em; margin-left: 2px;
+    background: var(--red); vertical-align: -0.08em;
+    animation: type-blink .8s step-end infinite;
+  }
+  @keyframes type-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    .type-cursor { animation: none; opacity: 1; }
+  }
+  .hero-actions { margin-top: 38px; display: flex; flex-wrap: wrap; gap: 16px; }
+  .btn {
+    display: inline-block; padding: 14px 32px;
+    border: 2px solid var(--red); border-radius: 4px;
+    font-weight: 700; cursor: pointer; transition: background .2s, color .2s;
+  }
+  .btn.solid { background: var(--red); color: #fff; }
+  .btn.solid:hover { background: transparent; color: var(--red); }
+  .btn.ghost { background: transparent; color: var(--text); }
+  .btn.ghost:hover { background: var(--red); color: #fff; }
+
+  .photo {
+    position: relative; justify-self: center; width: min(100%, 440px);
+  }
+  .photo::before {
+    content: ""; position: absolute; inset: 18px -18px -18px 18px;
+    border: 2px solid var(--red); border-radius: 6px; z-index: 0;
+  }
+  .photo img { position: relative; z-index: 1; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center top; border-radius: 6px; }
+
+  /* ---------- About ---------- */
+  #about { background: var(--panel); }
+  .about-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: clamp(30px, 6vw, 80px); align-items: center; }
+  .about-grid h2 { margin-bottom: 28px; }
+  .about-grid p { color: var(--text-soft); font-size: 1.12rem; max-width: 60ch; }
+  .about-grid p + p { margin-top: 18px; }
+  .about-grid .photo { width: min(100%, 380px); }
+  .about-grid .photo img { aspect-ratio: 3 / 4; object-position: center 20%; }
+
+  /* ---------- Education ---------- */
+  .edu-grid { display: grid; grid-template-columns: .8fr 1.6fr; gap: clamp(30px, 6vw, 80px); }
+  .timeline { list-style: none; border-left: 2px solid var(--red-deep); }
+  .timeline li { position: relative; padding: 0 0 46px 34px; display: grid; grid-template-columns: 130px 1fr; column-gap: 24px; }
+  .timeline li:last-child { padding-bottom: 0; }
+  .timeline li::before {
+    content: ""; position: absolute; left: -9px; top: 8px;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--black); border: 3px solid var(--red);
+  }
+  .year { font-family: var(--display); font-weight: 800; font-size: 1.7rem; line-height: 1.2; color: var(--red); }
+  .timeline h3 { font-size: 1.2rem; line-height: 1.35; margin-bottom: 4px; }
+  .timeline .school { color: var(--text-soft); }
+  .timeline .grade { color: var(--muted); font-size: .95rem; margin-top: 4px; }
+
+  /* ---------- Skills ---------- */
+  #skills { background: var(--panel); }
+  .skills-grid {
+    margin-top: 48px; display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(24px, 4vw, 40px);
+  }
+  .skill-card {
+    min-width: 0; max-width: 100%;
+    border: 2px solid var(--red-deep); border-radius: 6px;
+    padding: clamp(20px, 3vw, 28px); background: rgba(224,30,43,.04);
+  }
+  .skills-grid h3 {
+    font-family: var(--display); font-weight: 600; font-size: 1.5rem; margin-bottom: 18px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip {
+    border: 1px solid var(--red-deep); background: rgba(224,30,43,.08);
+    padding: 6px 16px; border-radius: 999px; font-size: .95rem; color: var(--text);
+  }
+  .chip.lg { font-size: 1.05rem; padding: 9px 20px; }
+
+  /* ---------- Skills marquee ---------- */
+  #skills .skill-card .chips {
+    flex-wrap: nowrap;
+    overflow: hidden;
+    position: relative;
+    width: 100%; max-width: 100%; min-width: 0;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  #skills .skill-card .chips-track {
+    display: flex; flex-wrap: nowrap; gap: 10px; flex-shrink: 0;
+    width: max-content;
+    animation: chips-scroll-right 26s linear infinite;
+  }
+  #skills .skill-card .chip { white-space: nowrap; }
+  #skills .skill-card:nth-child(even) .chips-track {
+    animation-name: chips-scroll-left;
+  }
+  #skills .skill-card .chips:hover .chips-track { animation-play-state: paused; }
+  @media (prefers-reduced-motion: reduce) {
+    #skills .skill-card .chips-track { animation: none; }
+  }
+  @keyframes chips-scroll-right {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+  }
+  @keyframes chips-scroll-left {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ---------- My Works (book) ---------- */
+  #works { background: radial-gradient(ellipse at 50% 45%, var(--works-glow) 0%, var(--black) 70%); }
+  #works .head { text-align: center; }
+  #works .head p { color: var(--muted); margin-top: 14px; }
+  .book-stage { margin-top: 56px; display: grid; justify-items: center; }
+
+  .book {
+    position: relative;
+    width: min(100%, 980px);
+    display: grid;
+    perspective: 2400px;
+    margin-right: 18px;
+  }
+  .book::after {
+    content: ""; position: absolute; top: 6px; bottom: -6px; right: -18px; width: 18px;
+    background: repeating-linear-gradient(90deg, var(--red-deep) 0 2px, #000 2px 5px);
+    border-radius: 0 6px 6px 0; z-index: 0;
+  }
+  .page {
+    grid-area: 1 / 1; position: relative;
+    transform-origin: left center; transform-style: preserve-3d;
+    transition: transform var(--flip) cubic-bezier(.5,.05,.25,1), opacity .25s ease .65s, visibility 0s linear var(--flip);
+  }
+  .page.flipped { transform: rotateY(-180deg); opacity: 0; visibility: hidden; }
+  .page:not(.flipped) {
+    transition: transform var(--flip) cubic-bezier(.5,.05,.25,1), opacity .2s ease 0s, visibility 0s linear 0s;
+  }
+  .face { backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 6px 10px 10px 6px; }
+  .front {
+    position: relative; height: 100%;
+    display: grid; gap: 16px; grid-template-rows: auto auto 1fr auto;
+    padding: clamp(16px, 3vw, 30px);
+    background: linear-gradient(135deg, var(--paper-2), var(--paper));
+    border: 2px solid var(--red);
+    box-shadow: 0 30px 60px rgba(0,0,0,.6), inset 8px 0 18px rgba(0,0,0,.45);
+    overflow: hidden;
+  }
+  .front * { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  /* hide the front once the page has turned past the halfway point, so it never shows mirrored */
+  .page.flipped .front { visibility: hidden; transition: visibility 0s linear calc(var(--flip) * .5); }
+  .page:not(.flipped) .front { visibility: visible; transition: visibility 0s linear calc(var(--flip) * .5); }
+  .back {
+    position: absolute; inset: 0; transform: rotateY(180deg);
+    background: repeating-linear-gradient(0deg, var(--paper) 0 22px, var(--paper-2) 22px 23px);
+    border: 2px solid var(--red-deep);
+  }
+  .shade {
+    position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(90deg, rgba(0,0,0,.95), rgba(0,0,0,.2));
+    opacity: 0; transition: opacity var(--flip) ease;
+  }
+  .page.flipped .shade { opacity: 1; }
+
+  .label-box {
+    justify-self: center; min-width: 40%; text-align: center; padding: 6px 28px;
+    border: 2px solid var(--red); border-radius: 3px;
+    font-family: var(--display); font-weight: 600; font-size: 1.3rem; letter-spacing: 1px;
+  }
+  .title-box {
+    padding: 10px 20px; border: 2px solid var(--red-deep); border-radius: 3px; text-align: center;
+    font-family: var(--display); font-weight: 800; font-size: clamp(1.7rem, 4.2vw, 2.6rem); line-height: 1.1;
+  }
+  .work-body { display: grid; grid-template-columns: 1.1fr 1fr; gap: 16px; }
+  .shot {
+    border: 2px solid var(--red-deep); border-radius: 3px; overflow: hidden; background: #000; min-height: 200px;
+  }
+  .shot img { width: 100%; height: 100%; object-fit: cover; object-position: top left; }
+  .desc-box {
+    border: 2px solid var(--red-deep); border-radius: 3px; padding: 18px 20px;
+    display: flex; flex-direction: column; justify-content: space-between; gap: 18px;
+  }
+  .desc-box p { color: var(--text-soft); }
+  .gh-link { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; color: var(--red); width: fit-content; border-bottom: 2px solid transparent; }
+  .gh-link:hover { border-bottom-color: var(--red); }
+  .gh-link svg { width: 22px; height: 22px; fill: currentColor; }
+
+  .foot { display: flex; gap: 16px; align-items: stretch; }
+  .tech-box { flex: 1; border: 2px solid var(--red-deep); border-radius: 3px; padding: 12px 16px; }
+  .tech-box h4 { font-size: .95rem; font-weight: 700; color: var(--muted); margin-bottom: 8px; }
+  .next-btn {
+    flex: none; width: 96px; height: 96px; border-radius: 50%;
+    border: 2px solid var(--red); background: transparent; color: var(--text);
+    display: grid; place-items: center; align-content: center;
+    cursor: pointer; font: inherit; font-weight: 700; transition: background .2s, transform .2s;
+  }
+  .next-btn:hover { background: var(--red); transform: scale(1.06); }
+  .next-btn svg { width: 40px; height: 26px; }
+
+  .controls { margin-top: 34px; display: flex; align-items: center; gap: 22px; }
+  .prev-btn {
+    background: none; border: 2px solid var(--red-deep); color: var(--text);
+    padding: 8px 20px; border-radius: 999px; cursor: pointer; font: inherit; font-weight: 600;
+    transition: border-color .2s, opacity .2s;
+  }
+  .prev-btn:hover:not(:disabled) { border-color: var(--red); }
+  .prev-btn:disabled { opacity: .35; cursor: default; }
+  .dots { display: flex; gap: 10px; }
+  .dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--red); background: transparent; cursor: pointer; transition: background .2s; }
+  .dot.active { background: var(--red); }
+  .counter { color: var(--muted); font-weight: 600; min-width: 4ch; }
+
+  /* ---------- Contact ---------- */
+  .contact-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(30px, 6vw, 90px); align-items: center; }
+  .contact-grid .photo { width: min(100%, 380px); }
+  .contact-grid .photo img { aspect-ratio: 3 / 4; object-position: center 25%; }
+  .contact-info h2 { margin-bottom: 26px; }
+  .contact-info .name { font-size: 1.3rem; font-weight: 700; margin-bottom: 22px; }
+  .contact-info dl { display: grid; gap: 4px; }
+  .contact-info dt { font-weight: 700; margin-top: 16px; color: var(--red); }
+  .contact-info dd { color: var(--text-soft); }
+  .contact-info dd a:hover { color: var(--red); }
+  .social { display: flex; gap: 14px; margin-top: 8px; }
+  .social a {
+    width: 46px; height: 46px; display: grid; place-items: center;
+    border: 2px solid var(--red-deep); border-radius: 50%; transition: background .2s, border-color .2s;
+  }
+  .social a:hover { background: var(--red); border-color: var(--red); }
+  .social svg { width: 22px; height: 22px; fill: currentColor; }
+
+  footer { text-align: center; color: var(--muted); font-size: .9rem; padding: 28px 20px; border-top: 1px solid var(--line); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    .menu-btn { display: block; }
+    .nav ul {
+      display: none; position: absolute; top: var(--nav-h); left: 0; right: 0;
+      flex-direction: column; gap: 0; background: var(--panel); border-bottom: 1px solid var(--line);
+    }
+    .nav ul.open { display: flex; }
+    .nav ul a { display: block; padding: 14px 24px; border-bottom: 1px solid var(--line); }
+    .nav ul a.active { border-bottom-color: var(--line); color: var(--red); }
+    .hero .wrap, .about-grid, .edu-grid, .skills-grid, .contact-grid { grid-template-columns: 1fr; }
+    .hero { min-height: 0; }
+    .photo { order: -1; width: min(80%, 360px); margin-right: 18px; }
+    .about-grid .photo, .contact-grid .photo { width: min(80%, 340px); }
+    .timeline li { grid-template-columns: 1fr; row-gap: 4px; }
+    .work-body { grid-template-columns: 1fr; }
+    .shot { min-height: 0; aspect-ratio: 2 / 1; }
+  }
+  @media (max-width: 560px) {
+    .foot { flex-direction: column; }
+    .next-btn { width: 100%; height: 56px; border-radius: 999px; grid-auto-flow: column; gap: 10px; }
+    .next-btn svg { width: 30px; height: 20px; }
+    .book { margin-right: 12px; }
+    .book::after { width: 12px; right: -12px; }
+    .controls { gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .hero-actions .btn { flex: 1 1 100%; text-align: center; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    :root { --flip: 0.01s; }
+    .page, .page:not(.flipped) { transition-duration: .01s, .01s, 0s; transition-delay: 0s; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a href="#home" class="logo">Shehab's Portfolio<span>.</span></a>
+    <div class="nav-right">
+      <div class="theme-switch" role="group" aria-label="Theme">
+        <button type="button" class="theme-btn" data-theme-btn="dark" aria-pressed="true" aria-label="Dark theme" title="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <button type="button" class="theme-btn" data-theme-btn="light" aria-pressed="false" aria-label="Light theme" title="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8l1.8-1.8M18 6l1.8-1.8"/></svg>
+        </button>
+        <button type="button" class="theme-btn" data-theme-btn="cyber" aria-pressed="false" aria-label="Cyber theme" title="Cyber theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+        </button>
+      </div>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navList">Menu</button>
+      <nav aria-label="Main">
+        <ul id="navList">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About Me</a></li>
+          <li><a href="#education">Education</a></li>
+          <li><a href="#skills">Skills &amp; Proficiencies</a></li>
+          <li><a href="#works">My Works</a></li>
+          <li><a href="#contact">Contact Me</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- HOME -->
+  <div class="hero" id="home">
+    <div class="wrap">
+      <div>
+        <h1 id="hero-name" aria-label="Md. Naimul Islam Shehab">
+          <span class="type-line" id="type-line-1"></span><br>
+          <span class="type-line" id="type-line-2"></span><span class="type-cursor" id="type-cursor">&nbsp;</span>
+        </h1>
+        <!-- <p class="role">Undergraduate CSE Student</p> -->
+        <div class="hero-actions">
+          <a class="btn solid" target="_blank" rel="noopener"
+             href="https://docs.google.com/forms/d/e/1FAIpQLSdR2NjMS96MQnTkHxTKQj0TGG7y34s3VUv7lX4h7oSnsda65Q/viewform?usp=dialog">Reach Out</a>
+          <a class="btn ghost" target="_blank" rel="noopener"
+             href="https://drive.google.com/file/d/1TDqgJK9t8fvs_bUoPHQb0HBjzNcYF-W_/view?usp=sharing">Download Resume</a>
+        </div>
+      </div>
+      <div class="photo"><img src="firstImg.jpg" alt="Portrait of Md. Naimul Islam Shehab"></div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap about-grid">
+      <div>
+        <h2 class="section-title">About Me</h2>
+        <p>I’m a Computer Science & Engineering student passionate about technology, web development, networking, and creative design. I build practical digital solutions using HTML, CSS, JavaScript, PHP, MySQL, and C, while also exploring networking and software engineering. Alongside development, I have experience in graphic design, branding, and visual content creation. I’m always learning, building, and looking for opportunities to turn ideas into useful digital experiences.</p>
+      
+      </div>
+      <div class="photo"><img src="secondImg.jpg" alt="Md. Naimul Islam Shehab sitting at a table" loading="lazy"></div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="wrap edu-grid">
+      <h2 class="section-title">Education</h2>
+      <ol class="timeline">
+        <li>
+          <div class="year">2020 - 2021</div>
+          <div>
+            <h3>Bachelor’s Degree (Honour’s)</h3>
+            <div class="school">National University (Dhaka Commerce College)</div>
+            <div class="grade">CGPA: 3.51 / 4.00 | 8th Semester (Ongoing)</div>
+          </div>
+        </li>
+        <li>
+          <div class="year">2019</div>
+          <div>
+            <h3>Higher Secondary Certificate (HSC)</h3>
+            <div class="school">Govt. Sayed Hatem Ali College, Barishal</div>
+            <div class="grade">GPA: 4.25 / 5.00</div>
+          </div>
+        </li>
+        <li>
+          <div class="year">2017</div>
+          <div>
+            <h3>Secondary School Certificate (SSC)</h3>
+            <div class="school">Barishal Zilla School, Barishal</div>
+            <div class="grade">GPA: 4.91 / 5.00</div>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="wrap">
+      <h2 class="section-title">Skills &amp; Proficiencies</h2>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <h3><span aria-hidden="true">💻</span> Web Development</h3>
+          <div class="chips">
+            <span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">JavaScript</span>
+            <span class="chip">PHP</span><span class="chip">MySQL</span><span class="chip">Responsive Web Design</span>
+            <span class="chip">AJAX / Fetch API</span><span class="chip">PHP OOP</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3><span aria-hidden="true">🌐</span> Networking</h3>
+          <div class="chips">
+            <span class="chip">Computer Networking</span><span class="chip">Cisco Packet Tracer</span>
+            <span class="chip">IP Addressing & Subnetting</span><span class="chip">Routing & Switching</span>
+            <span class="chip">RIP</span><span class="chip">PPP</span><span class="chip">Basic Network Security</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3><span aria-hidden="true">🧑‍💻</span> Programming</h3>
+          <div class="chips">
+            <span class="chip">C</span><span class="chip">JavaScript</span><span class="chip">PHP</span>
+            <span class="chip">Object-Oriented Programming</span><span class="chip">Data Structures & Algorithms</span>
+            <span class="chip">Git & GitHub</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3><span aria-hidden="true">🎨</span> Graphic Design</h3>
+          <div class="chips">
+            <span class="chip">Logo Design</span><span class="chip">Branding</span><span class="chip">Mockup Design</span>
+            <span class="chip">Banner Design</span><span class="chip">Flyer Design</span><span class="chip">Business Card Design</span>
+            <span class="chip">Photo Manipulation</span><span class="chip">Photo Restoration</span><span class="chip">Color Correction</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3><span aria-hidden="true">🛠️</span> Software &amp; Tools</h3>
+          <div class="chips">
+            <span class="chip">Git & GitHub</span><span class="chip">VS Code</span><span class="chip">Cisco Packet Tracer</span>
+            <span class="chip">Adobe Illustrator</span><span class="chip">Adobe Photoshop</span><span class="chip">MySQL / phpMyAdmin</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3><span aria-hidden="true">🚀</span> Other Skills</h3>
+          <div class="chips">
+            <span class="chip">Problem Solving</span><span class="chip">UI/UX Design</span><span class="chip">Project Development</span>
+            <span class="chip">Database Design</span><span class="chip">Team Collaboration</span><span class="chip">Learning & Research</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3>Languages</h3>
+          <div class="chips">
+            <span class="chip">Bangla (Native)</span><span class="chip">English</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MY WORKS: the book -->
+  <section id="works">
+    <div class="wrap">
+      <div class="head">
+        <h2 class="section-title">My Works</h2>
+        <p>Turn the pages to see each project. Use the next button, the arrow keys, or swipe.</p>
+      </div>
+      <div class="book-stage">
+        <div class="book" id="book" aria-live="polite"></div>
+        <div class="controls">
+          <button class="prev-btn" id="prev" aria-label="Previous project">Back</button>
+          <div class="dots" id="dots" role="tablist" aria-label="Choose a project"></div>
+          <span class="counter" id="counter"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap contact-grid">
+      <div class="photo"><img src="thirdImg.jpg" alt="Md. Naimul Islam Shehab looking to the side" loading="lazy"></div>
+      <div class="contact-info">
+        <h2 class="section-title">Contact Me</h2>
+        <p class="name">Md. Naimul Islam Shehab</p>
+        <dl>
+          <dt>Email</dt>
+          <dd><a href="mailto:mdnaimulislamshehab35@gmail.com">mdnaimulislamshehab35@gmail.com</a></dd>
+          <dt>Phone Number</dt>
+          <dd><a href="tel:01638386026">01638386026</a> | <a href="tel:01581726339">01581726339</a></dd>
+          <dt>Social Media</dt>
+          <dd>
+            <div class="social">
+              <a href="https://www.linkedin.com/in/naimul-islam-shehab-4b6a80390/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zM7.119 20.452H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              </a>
+              <a href="https://www.facebook.com/naimul.islam.116149" target="_blank" rel="noopener" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              </a>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>&copy; <span id="year"></span> Md. Naimul Islam Shehab</footer>
+
+<script>
+  /* ============================================================
+     EDIT YOUR PROJECTS HERE. Add another { ... } item and the
+     book gets a new page automatically.
+     ============================================================ */
+  const projects = [
+    {
+      title: "Attendance Management System",
+      image: "projectImg1.png",
+      description: "Web-based system developed using CSS and PHP for managing student attendance records.",
+      tech: ["CSS", "PHP"],
+      github: "https://github.com/NaimulShehab/Attendance-Management-System"
+    },
+    {
+      title: "To-Do List Application",
+      image: "projectImg2.png",
+      description: "Front-end task management application built using HTML, CSS, and JavaScript.",
+      tech: ["HTML", "CSS", "JavaScript"],
+      github: "https://github.com/NaimulShehab/to-do-list"
+    }
+  ];
+
+  const book = document.getElementById("book");
+  const dotsBox = document.getElementById("dots");
+  const prevBtn = document.getElementById("prev");
+  const counter = document.getElementById("counter");
+  const total = projects.length;
+  let current = 0;
+  const pages = [];
+  const dots = [];
+
+  const arrow = `<svg viewBox="0 0 40 26" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" aria-hidden="true"><path d="M2 8h20V2l16 11-16 11v-6H2z"/></svg>`;
+  const rewind = `<svg viewBox="0 0 40 26" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" aria-hidden="true"><path d="M38 8H18V2L2 13l16 11v-6h20z"/></svg>`;
+  const ghIcon = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.921.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>`;
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+
+  /* Theme switcher: dark (default) / light / cyber, persisted across visits. */
+  (function () {
+    const STORAGE_KEY = "shehab-theme";
+    const root = document.documentElement;
+    const buttons = Array.from(document.querySelectorAll(".theme-btn"));
+
+    function applyTheme(name) {
+      if (name === "dark") {
+        root.removeAttribute("data-theme");
+      } else {
+        root.setAttribute("data-theme", name);
+      }
+      buttons.forEach(btn => {
+        btn.setAttribute("aria-pressed", String(btn.dataset.themeBtn === name));
+      });
+      try { localStorage.setItem(STORAGE_KEY, name); } catch (e) {}
+    }
+
+    let current = "dark";
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved === "light" || saved === "cyber" || saved === "dark") current = saved;
+    } catch (e) {}
+    applyTheme(current);
+
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => applyTheme(btn.dataset.themeBtn));
+    });
+  })();
+
+  /* Typewriter animation for the hero name. */
+  (function () {
+    const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const line1El = document.getElementById("type-line-1");
+    const line2El = document.getElementById("type-line-2");
+    const cursorEl = document.getElementById("type-cursor");
+    if (!line1El || !line2El) return;
+
+    const line1 = "Md. Naimul";
+    const line2 = "Islam Shehab";
+
+    if (reduceMotion) {
+      line1El.textContent = line1;
+      line2El.textContent = line2;
+      return;
+    }
+
+    const typeSpeed = 90;    // ms per character while typing
+    const eraseSpeed = 45;   // ms per character while erasing
+    const startDelay = 300;  // ms before the first type begins
+    const lineGap = 150;     // ms pause between the two lines while typing
+    const holdFull = 1600;   // ms to hold once fully typed
+    const holdEmpty = 500;   // ms to hold once fully erased
+
+    function typeInto(el, text, i, done) {
+      if (i < text.length) {
+        el.textContent += text.charAt(i);
+        setTimeout(() => typeInto(el, text, i + 1, done), typeSpeed);
+      } else {
+        done();
+      }
+    }
+
+    function eraseFrom(el, done) {
+      const current = el.textContent;
+      if (current.length > 0) {
+        el.textContent = current.slice(0, -1);
+        setTimeout(() => eraseFrom(el, done), eraseSpeed);
+      } else {
+        done();
+      }
+    }
+
+    function cycle() {
+      typeInto(line1El, line1, 0, () => {
+        setTimeout(() => {
+          typeInto(line2El, line2, 0, () => {
+            setTimeout(() => {
+              eraseFrom(line2El, () => {
+                eraseFrom(line1El, () => {
+                  setTimeout(cycle, holdEmpty);
+                });
+              });
+            }, holdFull);
+          });
+        }, lineGap);
+      });
+    }
+
+    setTimeout(cycle, startDelay);
+  })();
+
+  /* Turn each Skills chip row into a seamless, endlessly scrolling marquee.
+     Alternating rows scroll opposite directions (handled in CSS via nth-child). */
+  document.querySelectorAll("#skills .skill-card .chips").forEach(row => {
+    const chips = Array.from(row.children);
+    const track = document.createElement("div");
+    track.className = "chips-track";
+    chips.forEach(chip => track.appendChild(chip));
+    chips.forEach(chip => track.appendChild(chip.cloneNode(true))); // duplicate for seamless loop
+    row.innerHTML = "";
+    row.appendChild(track);
+  });
+
+  projects.forEach((p, i) => {
+    const last = i === total - 1;
+    const page = document.createElement("article");
+    page.className = "page";
+    page.style.zIndex = total - i;
+    page.setAttribute("aria-label", `Project ${i + 1} of ${total}`);
+    page.innerHTML = `
+      <div class="face front">
+        <div class="label-box">Project ${i + 1}</div>
+        <h3 class="title-box">${esc(p.title)}</h3>
+        <div class="work-body">
+          <div class="shot"><img src="${esc(p.image)}" alt="Screenshot of ${esc(p.title)}"></div>
+          <div class="desc-box">
+            <p>${esc(p.description)}</p>
+            <a class="gh-link" href="${esc(p.github)}" target="_blank" rel="noopener">${ghIcon}<span>Visit my work on GitHub</span></a>
+          </div>
+        </div>
+        <div class="foot">
+          <div class="tech-box">
+            <h4>Technologies</h4>
+            <div class="chips">${p.tech.map(t => `<span class="chip">${esc(t)}</span>`).join("")}</div>
+          </div>
+          <button class="next-btn" data-action="${last ? "restart" : "next"}"
+                  aria-label="${last ? "Back to the first project" : "Next project"}">
+            <span>${last ? "first" : "next"}</span>${last ? rewind : arrow}
+          </button>
+        </div>
+        <div class="shade"></div>
+      </div>
+      <div class="face back"></div>`;
+    book.appendChild(page);
+    pages.push(page);
+
+    const dot = document.createElement("button");
+    dot.className = "dot";
+    dot.setAttribute("role", "tab");
+    dot.setAttribute("aria-label", `Go to project ${i + 1}: ${p.title}`);
+    dot.addEventListener("click", () => goTo(i));
+    dotsBox.appendChild(dot);
+    dots.push(dot);
+  });
+
+  function render() {
+    pages.forEach((pg, i) => {
+      pg.classList.toggle("flipped", i < current);
+      const visible = i === current;
+      pg.inert = !visible;
+      pg.setAttribute("aria-hidden", visible ? "false" : "true");
+    });
+    dots.forEach((d, i) => {
+      d.classList.toggle("active", i === current);
+      d.setAttribute("aria-selected", i === current);
+    });
+    prevBtn.disabled = current === 0;
+    counter.textContent = `${current + 1} / ${total}`;
+  }
+
+  let timer = null;
+  function goTo(target) {
+    clearTimeout(timer);
+    if (target === current) return;
+    const step = target > current ? 1 : -1;
+    const tick = () => {
+      current += step;
+      render();
+      if (current !== target) timer = setTimeout(tick, 220);
+    };
+    tick();
+  }
+
+  book.addEventListener("click", e => {
+    const btn = e.target.closest(".next-btn");
+    if (!btn) return;
+    goTo(btn.dataset.action === "restart" ? 0 : current + 1);
+  });
+  prevBtn.addEventListener("click", () => goTo(current - 1));
+
+  let inView = false;
+  new IntersectionObserver(([en]) => { inView = en.isIntersecting; }, { threshold: 0.35 })
+    .observe(document.getElementById("works"));
+  document.addEventListener("keydown", e => {
+    if (!inView) return;
+    if (e.key === "ArrowRight" && current < total - 1) goTo(current + 1);
+    if (e.key === "ArrowLeft" && current > 0) goTo(current - 1);
+  });
+
+  let startX = null;
+  book.addEventListener("touchstart", e => { startX = e.touches[0].clientX; }, { passive: true });
+  book.addEventListener("touchend", e => {
+    if (startX === null) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    if (dx < -50 && current < total - 1) goTo(current + 1);
+    if (dx > 50 && current > 0) goTo(current - 1);
+    startX = null;
+  });
+
+  /* Mobile menu */
+  const menuBtn = document.getElementById("menuBtn");
+  const navList = document.getElementById("navList");
+  menuBtn.addEventListener("click", () => {
+    const open = navList.classList.toggle("open");
+    menuBtn.setAttribute("aria-expanded", open);
+  });
+  navList.addEventListener("click", e => {
+    if (e.target.tagName === "A") { navList.classList.remove("open"); menuBtn.setAttribute("aria-expanded", "false"); }
+  });
+
+  /* Highlight the nav link of the section on screen */
+  const links = [...navList.querySelectorAll("a")];
+  const spy = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) {
+        links.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + en.target.id));
+      }
+    });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  links.forEach(a => { const s = document.querySelector(a.getAttribute("href")); if (s) spy.observe(s); });
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+  render();
+</script>
+</body>
+</html>
